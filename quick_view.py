@@ -1,13 +1,23 @@
+import argparse
 import numpy as np
 import matplotlib.pyplot as plt
+from pathlib import Path
 
-# Load .npy file
-img = np.load("output_slices/MDF_images_0_image_xy_0064.npy")
 
-# Display the image
-plt.imshow(img, cmap='gray')
-plt.title("Cryo-ET Slice")
-plt.axis('off')
-plt.colorbar()
-plt.savefig("slice_preview1.png", dpi=150)
-print("✅ Saved preview to slice_preview.png")
+def main():
+    parser = argparse.ArgumentParser(description="Visualise an extracted slice")
+    parser.add_argument("--path", required=True, help="Path to a .npy slice")
+    parser.add_argument("--output", default="slice_preview.png", help="Output PNG filename")
+    args = parser.parse_args()
+
+    img = np.load(args.path)
+    plt.imshow(img, cmap="gray")
+    plt.title("Cryo-ET Slice")
+    plt.axis("off")
+    plt.colorbar()
+    plt.savefig(args.output, dpi=150)
+    print(f"✅ Saved preview to {args.output}")
+
+
+if __name__ == "__main__":
+    main()
